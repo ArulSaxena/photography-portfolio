@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Photography portfolio featuring wildlife, city, product, and portrait work.">
+    <title>Photography Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Photography Portfolio home">
+        <span class="brand-mark"></span>
+        <span>Your Name</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#gallery">Gallery</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-media">
+          <img src="assets/photos/hero.jpg" alt="Featured photography preview">
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">Photography Portfolio</p>
+          <h1 id="hero-title">Stories framed through wildlife, streets, products, and people.</h1>
+          <p>
+            A curated gallery for your best photographs, organised by style so visitors can
+            quickly explore the work they care about.
+          </p>
+          <a class="primary-link" href="#gallery">View Gallery</a>
+        </div>
+      </section>
+
+      <section class="intro-strip" aria-label="Portfolio highlights">
+        <div>
+          <strong>04</strong>
+          <span>Photo categories</span>
+        </div>
+        <div>
+          <strong>Freelance</strong>
+          <span>Experience with Story Boarding</span>
+        </div>
+        <div>
+          <strong>Tools</strong>
+          <span>Lightroom, Photoshop, Canva</span>
+        </div>
+      </section>
+
+      <section class="section-block" id="gallery" aria-labelledby="gallery-title">
+        <div class="section-heading">
+          <p class="eyebrow">Selected Work</p>
+          <h2 id="gallery-title">Gallery</h2>
+        </div>
+
+        <div class="filters" aria-label="Filter gallery by category">
+          <button class="filter-button active" type="button" data-filter="all">All</button>
+          <button class="filter-button" type="button" data-filter="wildlife">Wildlife</button>
+          <button class="filter-button" type="button" data-filter="city">City</button>
+          <button class="filter-button" type="button" data-filter="product">Product</button>
+          <button class="filter-button" type="button" data-filter="portrait">Portrait</button>
+        </div>
+
+        <p class="gallery-status" data-gallery-status>Loading photos...</p>
+        <div class="gallery-grid" data-gallery-grid>
+        </div>
+      </section>
+
+      <section class="about-section" id="about" aria-labelledby="about-title">
+        <div class="profile-frame">
+          <img src="assets/photos/profile.svg" alt="Photographer profile placeholder">
+        </div>
+        <div>
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">Your eye, your story.</h2>
+          <p>
+            Replace this text with a short introduction: where you shoot, what kind of
+            photography you love, and what people can contact you for.
+          </p>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title">Let people reach you quickly.</h2>
+        <div class="contact-links">
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </section>
+    </main>
+
+    <div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview" hidden>
+      <button class="lightbox-close" type="button" aria-label="Close preview">&times;</button>
+      <img src="" alt="">
+      <p></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
