@@ -63,6 +63,15 @@ a {
   text-decoration: none;
 }
 
+.brand-logo {
+  border-radius: 50%;
+  display: block;
+  flex: 0 0 34px;
+  height: 34px;
+  object-fit: cover;
+  width: 34px;
+}
+
 .brand-mark {
   aspect-ratio: 1;
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
