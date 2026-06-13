@@ -37,6 +37,34 @@ const getTitleFromFilename = (filename) =>
 const isImageFile = (filename) =>
   imageExtensions.some((extension) => filename.toLowerCase().endsWith(extension));
 
+const toOptimizedPhoto = (src, size) => {
+  const url = new URL(src, window.location.href);
+  const photoRoot = "/assets/photos/";
+  const photoRootIndex = url.pathname.indexOf(photoRoot);
+
+  if (photoRootIndex === -1) {
+    return src;
+  }
+
+  const relativePath = decodeURIComponent(url.pathname.slice(photoRootIndex + photoRoot.length));
+  const pathParts = relativePath.split("/");
+
+  if (pathParts.length < 2) {
+    return src;
+  }
+
+  const category = pathParts[0];
+  const filename = pathParts[pathParts.length - 1].replace(/\.[^/.]+$/, ".webp");
+
+  return `assets/optimized/${size}/${category}/${encodeURIComponent(filename)}`;
+};
+
+const withOptimizedSources = (photo) => ({
+  ...photo,
+  thumbSrc: photo.thumbSrc || toOptimizedPhoto(photo.src, "thumbs"),
+  largeSrc: photo.largeSrc || toOptimizedPhoto(photo.src, "large"),
+});
+
 const getGithubRepo = () => {
   const { hostname, pathname } = window.location;
 
@@ -73,6 +101,8 @@ const loadGithubFolder = async (category) => {
       category: category.key,
       label: category.label,
       src: `assets/photos/${category.key}/${encodeURIComponent(file.name)}`,
+      thumbSrc: toOptimizedPhoto(`assets/photos/${category.key}/${encodeURIComponent(file.name)}`, "thumbs"),
+      largeSrc: toOptimizedPhoto(`assets/photos/${category.key}/${encodeURIComponent(file.name)}`, "large"),
       title: getTitleFromFilename(file.name),
     }));
 };
@@ -97,7 +127,9 @@ const loadLocalFolder = async (category) => {
       return {
         category: category.key,
         label: category.label,
-        src: url.href,
+        src: `assets/photos/${category.key}/${encodeURIComponent(filename)}`,
+        thumbSrc: toOptimizedPhoto(`assets/photos/${category.key}/${encodeURIComponent(filename)}`, "thumbs"),
+        largeSrc: toOptimizedPhoto(`assets/photos/${category.key}/${encodeURIComponent(filename)}`, "large"),
         title: getTitleFromFilename(filename),
       };
     });
@@ -118,10 +150,18 @@ const createPhotoCard = (photo, index) => {
   }
 
   const image = document.createElement("img");
-  image.src = photo.src;
+  image.src = photo.thumbSrc || photo.src;
   image.alt = `${photo.label} photo: ${photo.title}`;
+  image.decoding = "async";
   image.loading = "lazy";
+  image.dataset.fallbackLoaded = "false";
   image.addEventListener("error", () => {
+    if (image.dataset.fallbackLoaded === "false") {
+      image.dataset.fallbackLoaded = "true";
+      image.src = photo.src;
+      return;
+    }
+
     console.warn(`Could not load image: ${photo.src}`);
   });
 
@@ -136,7 +176,7 @@ const createPhotoCard = (photo, index) => {
 
 const renderGallery = (photos) => {
   galleryGrid.replaceChildren();
-  photos.forEach((photo, index) => galleryGrid.append(createPhotoCard(photo, index)));
+  photos.map(withOptimizedSources).forEach((photo, index) => galleryGrid.append(createPhotoCard(photo, index)));
 
   if (photos.length === 0) {
     galleryStatus.textContent = "Add photos inside assets/photos/city, wildlife, product, or portrait.";
@@ -167,7 +207,7 @@ const applyFilter = (filter) => {
 };
 
 const openLightbox = (photo) => {
-  lightboxImage.src = photo.src;
+  lightboxImage.src = photo.largeSrc || photo.src;
   lightboxImage.alt = photo.title;
   lightboxCaption.textContent = photo.title;
   lightbox.hidden = false;

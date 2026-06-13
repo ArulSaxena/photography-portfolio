@@ -63,11 +63,15 @@ a {
   text-decoration: none;
 }
 
-.brand-logo {
+.site-header .brand .brand-logo {
   border-radius: 50%;
   display: block;
   flex: 0 0 34px;
   height: 34px;
+  max-height: 34px;
+  max-width: 34px;
+  min-height: 34px;
+  min-width: 34px;
   object-fit: cover;
   width: 34px;
 }

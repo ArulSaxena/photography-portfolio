@@ -26,6 +26,18 @@ The site is static, so it works without a backend, database, or build step.
 
 When hosted on GitHub Pages, the gallery automatically loads supported image files from each category folder using GitHub's public repository API. Supported file types are JPG, JPEG, PNG, WebP, GIF, and AVIF.
 
+## Optimize Images
+
+Keep your original full-size images in `assets/photos/`, then generate smaller WebP files for the website:
+
+```bash
+python tools/optimize_images.py
+```
+
+The gallery loads `assets/optimized/thumbs/` first for fast browsing. When someone opens the lightbox, it loads `assets/optimized/large/`. If an optimized file is missing, the site falls back to the original photo.
+
+Run this script again whenever you add new photos.
+
 For local preview, run a small static server from this folder:
 
 ```bash
